@@ -38,6 +38,10 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     maxlength: [50, "Last Name cannot be more than 50 characters"],
   },
+  salt: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);

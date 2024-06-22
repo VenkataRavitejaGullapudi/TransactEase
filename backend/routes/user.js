@@ -2,6 +2,8 @@ const express = require("express");
 const z = require("zod");
 const { User } = require("../db");
 var jwt = require("jsonwebtoken");
+const { authMiddleware } = require("../middlewares/middleware");
+const crypto = require("crypto");
 
 const userRouter = express.Router();
 
@@ -31,11 +33,17 @@ userRouter.post("/signup", async (req, res) => {
     });
   }
 
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hashedPassword = crypto
+    .pbkdf2Sync(req.body.password, salt, 1000, 64, "sha512")
+    .toString("hex");
+
   const newUser = await User.create({
     userName: req.body.userName,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    password: req.body.password,
+    password: hashedPassword,
+    salt: salt,
   });
   const userId = newUser._id;
 
@@ -53,24 +61,35 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 const signInBody = z.object({
-  username: z.string().min(3).max(30),
+  userName: z.string().min(3).max(30),
   password: z.string().min(6),
 });
 
 userRouter.post("/signin", async (req, res) => {
   const { success } = signInBody.safeParse(req.body);
   if (!success) {
+    console.log(req.body);
     return res.status(411).json({
       message: "Incorrect inputs",
     });
   }
+
   const user = await User.findOne({
     username: req.body.username,
-    password: req.body.password,
   });
   if (!user) {
     return res.status(411).json({
       message: "Error while signing in",
+    });
+  }
+
+  const hashedPassword = crypto
+    .pbkdf2Sync(req.body.password, user.salt, 1000, 64, "sha512")
+    .toString("hex");
+
+  if (hashedPassword !== user.password) {
+    return res.status(411).json({
+      message: "Incorrect password",
     });
   }
 
@@ -85,6 +104,17 @@ userRouter.post("/signin", async (req, res) => {
     message: "User signed in successfully",
     token,
   });
+});
+
+const updateBody = z.object({
+  firstName: z.string().max(50).optional(),
+  lastName: z.string().max(50).optional(),
+  password: z.string().min(6).optional(),
+});
+
+userRouter.put("", authMiddleware, async (req, res) => {
+  const users = await User.find();
+  return res.status(200).json(users);
 });
 
 module.exports = userRouter;
