@@ -1,6 +1,6 @@
-const mongoose = require(mongoose)
+const mongoose = require("mongoose");
 
-export const connectToDB = async () => {
+const connectToDB = async () => {
   try {
     const connObj = await mongoose.connect(process.env.MONGO_URI);
     console.log(`MongoDB Connected: ${connObj.connection.host}`);
@@ -40,4 +40,9 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-export const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
+
+module.exports = {
+  connectToDB,
+  User,
+};
