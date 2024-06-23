@@ -8,23 +8,26 @@ const crypto = require("crypto");
 const userRouter = express.Router();
 
 const signUpBody = z.object({
-  userName: z.string().min(3).max(30),
+  userName: z.string().min(3).max(30).transform(
+    (value) => value.toLowerCase()
+  ),
   firstName: z.string().max(50),
   lastName: z.string().max(50),
   password: z.string().min(6),
 });
 
 userRouter.post("/signup", async (req, res) => {
-  const { success } = signUpBody.safeParse(req.body);
+  const { success, data } = signUpBody.safeParse(req.body);
 
   if (!success) {
     return res.status(411).json({
       message: "Incorrect inputs",
     });
   }
+  req.body = data;
 
   const existingUser = await User.findOne({
-    username: req.body.userName,
+    userName: req.body.userName,
   });
 
   if (existingUser) {
@@ -82,7 +85,7 @@ userRouter.post("/signin", async (req, res) => {
   }
 
   const user = await User.findOne({
-    username: req.body.username,
+    userName: req.body.userName,
   });
   if (!user) {
     return res.status(411).json({
