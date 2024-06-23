@@ -13,8 +13,9 @@ const authMiddleware = (req, res, next) => {
     if (decoded.userId) {
       req.userId = decoded.userId;
       next();
+    } else {
+      return res.status(401).json({ error: "Unauthorized" });
     }
-    return res.status(401).json({ error: "Unauthorized" });
   } catch (err) {
     return res.status(401).json({ error: "Unauthorized" });
   }

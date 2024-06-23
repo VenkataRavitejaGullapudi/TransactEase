@@ -113,8 +113,34 @@ const updateBody = z.object({
 });
 
 userRouter.put("", authMiddleware, async (req, res) => {
-  const users = await User.find();
-  return res.status(200).json(users);
+  const { success } = updateBody.safeParse(req.body);
+  if (!success) {
+    console.log(req.body);
+    return res.status(411).json({
+      message: "Incorrect inputs",
+    });
+  }
+
+  if (req.body.password) {
+    const salt = crypto.randomBytes(16).toString("hex");
+    const hashedPassword = crypto
+      .pbkdf2Sync(req.body.password, salt, 1000, 64, "sha512")
+      .toString("hex");
+    req.body.password = hashedPassword;
+    req.body.salt = salt;
+  }
+
+  const response = await User.updateOne(
+    {
+      _id: req.userId,
+    },
+    req.body
+  );
+
+  return res.status(200).json({
+    message: "Updated successfully",
+    response,
+  });
 });
 
 module.exports = userRouter;
