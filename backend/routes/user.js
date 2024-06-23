@@ -19,17 +19,17 @@ userRouter.post("/signup", async (req, res) => {
 
   if (!success) {
     return res.status(411).json({
-      message: "Email already taken / Incorrect inputs",
+      message: "Incorrect inputs",
     });
   }
 
   const existingUser = await User.findOne({
-    username: req.body.username,
+    username: req.body.userName,
   });
 
   if (existingUser) {
     return res.status(411).json({
-      message: "Email already taken / Incorrect inputs",
+      message: "UserName already taken / Incorrect inputs",
     });
   }
 
@@ -140,6 +140,27 @@ userRouter.put("", authMiddleware, async (req, res) => {
   return res.status(200).json({
     message: "Updated successfully",
     response,
+  });
+});
+
+userRouter.get("/bulk", async (req, res) => {
+  const nameFilter = req.query.filter || "";
+
+  const users = await User.find(
+    {
+      $or: [
+        { firstName: { $regex: nameFilter, $options: "i" } },
+        { lastName: { $regex: nameFilter, $options: "i" } },
+      ],
+    },
+    {
+      password: 0,
+      salt: 0,
+    }
+  );
+
+  return res.status(200).json({
+    users: users,
   });
 });
 
