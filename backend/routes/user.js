@@ -91,7 +91,7 @@ userRouter.post("/signin", async (req, res) => {
   });
   if (!user) {
     return res.status(411).json({
-      message: "Error while signing in",
+      message: "Invalid username/password",
     });
   }
 
@@ -101,7 +101,7 @@ userRouter.post("/signin", async (req, res) => {
 
   if (hashedPassword !== user.password) {
     return res.status(411).json({
-      message: "Incorrect password",
+      message: "Incorrect username/password",
     });
   }
 
