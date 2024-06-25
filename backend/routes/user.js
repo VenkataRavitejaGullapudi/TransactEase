@@ -8,9 +8,11 @@ const crypto = require("crypto");
 const userRouter = express.Router();
 
 const signUpBody = z.object({
-  userName: z.string().min(3).max(30).transform(
-    (value) => value.toLowerCase()
-  ),
+  userName: z
+    .string()
+    .min(3)
+    .max(30)
+    .transform((value) => value.toLowerCase()),
   firstName: z.string().max(50),
   lastName: z.string().max(50),
   password: z.string().min(6),
@@ -153,7 +155,7 @@ userRouter.put("", authMiddleware, async (req, res) => {
   });
 });
 
-userRouter.get("/bulk", async (req, res) => {
+userRouter.get("/bulk", authMiddleware, async (req, res) => {
   const nameFilter = req.query.filter || "";
 
   const users = await User.find(
@@ -162,6 +164,7 @@ userRouter.get("/bulk", async (req, res) => {
         { firstName: { $regex: nameFilter, $options: "i" } },
         { lastName: { $regex: nameFilter, $options: "i" } },
       ],
+      $nor: [{ _id: req.userId }],
     },
     {
       password: 0,
