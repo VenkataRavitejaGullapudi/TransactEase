@@ -112,7 +112,7 @@ userRouter.post("/signin", async (req, res) => {
     process.env.JWT_SECRET
   );
 
-  return res.status(201).json({
+  return res.status(200).json({
     message: "User signed in successfully",
     token,
   });
