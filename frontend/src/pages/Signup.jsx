@@ -15,7 +15,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  
+
   const handleSignUp = async () => {
     try {
       const response = await signUp({
@@ -24,8 +24,7 @@ const Signup = () => {
         userName,
         password,
       });
-      if (response.status === 200 && response?.data?.token) {
-        error && setError("");
+      if (response.status === 201 && response?.data?.token) {
         navigate("/dashboard");
       } else
         setError(
@@ -38,7 +37,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="bg-slate-300 h-screen flex justify-center">
+    <div className="bg-slate-300 min-h-screen flex justify-center">
       <div className="flex flex-col justify-center">
         <div className="rounded-lg bg-white w-80 p-2 h-max px-4">
           <div className="text-center">
@@ -56,9 +55,8 @@ const Signup = () => {
             onChange={(e) => setLastName(e.target.value)}
           />
           <InputBox
-            type={"email"}
-            placeholder="Enter your email here..."
-            label={"Email"}
+            placeholder="Enter your User Name here..."
+            label={"User Name"}
             onChange={(e) => setUserName(e.target.value)}
           />
           <InputBox

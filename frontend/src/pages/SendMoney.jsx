@@ -3,6 +3,7 @@ import InputBox from "../components/InputBox";
 import { useState } from "react";
 import { transferMoney } from "../lib/services";
 import Button from "../components/Button";
+import { Appbar } from "../components/Appbar";
 
 const SendMoney = () => {
   const [searchParams] = useSearchParams();
@@ -14,8 +15,6 @@ const SendMoney = () => {
   const [message, setMessage] = useState();
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
-
-
 
   const handleOnInitaiteTransfer = () => {
     setLoading(true);
@@ -46,8 +45,9 @@ const SendMoney = () => {
   };
 
   return (
-    <div className="flex justify-center h-screen bg-gray-100">
-      <div className="h-full flex flex-col justify-center">
+    <div className="h-screen w-screen">
+      <Appbar />
+      <div className="flex flex-col items-center h-full bg-gray-100">
         <div className="border h-min text-card-foreground max-w-md p-4 space-y-8 w-96 bg-white shadow-lg rounded-lg">
           <div className="flex flex-col space-y-1.5 p-6">
             <h2 className="text-3xl font-bold text-center">Send Money</h2>
@@ -65,7 +65,10 @@ const SendMoney = () => {
             </div>
             {message ? (
               <div className="mx-1 my-5">
-                <p className="text-xl m-1 my-10 text-center font-semibold" style={{ color: isError ? "red" : "green" }}>
+                <p
+                  className="text-xl m-1 my-10 text-center font-semibold"
+                  style={{ color: isError ? "red" : "green" }}
+                >
                   {message}
                 </p>
               </div>
@@ -88,8 +91,21 @@ const SendMoney = () => {
                 </button>
               </div>
             )}
-            {message && isError && <Button onClick={() => {setMessage(null); setIsError(false)}} label={"Try Again"}/> }
-            {message && !isError && <Button onClick={() => navigate("/dashboard")} label={"Back to Dashboard"}/> }
+            {message && isError && (
+              <Button
+                onClick={() => {
+                  setMessage(null);
+                  setIsError(false);
+                }}
+                label={"Try Again"}
+              />
+            )}
+            {message && !isError && (
+              <Button
+                onClick={() => navigate("/dashboard")}
+                label={"Back to Dashboard"}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -21,7 +21,7 @@ export async function signIn(userName, password) {
     password,
   });
   if (response.status === 200 && response?.data?.token)
-    storeAuthToken(response.data.token);
+    storeAuthToken(response.data.token, userName);
   return response;
 }
 
@@ -33,7 +33,7 @@ export async function signUp({ firstName, lastName, userName, password }) {
     password,
   });
   if (response.status === 201 && response?.data?.token)
-    storeAuthToken(response.data.token);
+    storeAuthToken(response.data.token, userName);
   return response;
 }
 

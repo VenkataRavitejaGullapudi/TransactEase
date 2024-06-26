@@ -1,10 +1,13 @@
 const AUTH_TOKEN_KEY = "r_token";
+const AUTH_USERNAME_KEY = "r_username";
 
-export function storeAuthToken(token) {
+export function storeAuthToken(token, userName = "Ravi") {
   if (token) {
     localStorage.setItem(AUTH_TOKEN_KEY, token);
+    userName && localStorage.setItem(AUTH_USERNAME_KEY, userName);
   } else {
     localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(AUTH_USERNAME_KEY);
   }
 }
 
@@ -12,12 +15,13 @@ export function getAuthToken() {
   return localStorage.getItem(AUTH_TOKEN_KEY);
 }
 
-export function isUserLoggedIn() {
-  return !!getAuthToken();
+export function getAuthUserName() {
+  return localStorage.getItem(AUTH_USERNAME_KEY);
 }
 
-export function logoutUser() {
-  storeAuthToken(null);
+export function removeAuthToken() {
+  localStorage.removeItem(AUTH_TOKEN_KEY);
+  localStorage.removeItem(AUTH_USERNAME_KEY);
 }
 
 export function debounce(func, delay) {

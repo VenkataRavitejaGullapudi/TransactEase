@@ -44,8 +44,8 @@ const Signin = () => {
             />
           </div>
           <InputBox
-            placeholder="Enter your email here.."
-            label={"Email"}
+            placeholder="Enter your user name here.."
+            label={"User Name"}
             onChange={(e) => setUserName(e.target.value)}
           />
           <InputBox
