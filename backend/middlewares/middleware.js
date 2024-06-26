@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../lib/utils");
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization || "";
@@ -9,7 +9,7 @@ const authMiddleware = (req, res, next) => {
   const token = authHeader.replace("Bearer ", "");
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verifyToken(token);
     if (decoded.userId) {
       req.userId = decoded.userId;
       next();

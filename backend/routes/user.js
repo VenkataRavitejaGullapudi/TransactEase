@@ -1,9 +1,9 @@
 const express = require("express");
 const z = require("zod");
 const { User, Account } = require("../db");
-var jwt = require("jsonwebtoken");
 const { authMiddleware } = require("../middlewares/middleware");
 const crypto = require("crypto");
+const { createToken } = require("../lib/utils");
 
 const userRouter = express.Router();
 
@@ -59,12 +59,7 @@ userRouter.post("/signup", async (req, res) => {
     balance: 10 + Math.floor(Math.random() * 100000),
   });
 
-  const token = jwt.sign(
-    {
-      userId,
-    },
-    process.env.JWT_SECRET
-  );
+  const token = createToken({ userId });
 
   return res.status(201).json({
     message: "User created successfully",
@@ -90,7 +85,7 @@ userRouter.post("/signin", async (req, res) => {
     userName: req.body.userName,
   });
   if (!user) {
-    return res.status(411).json({
+    return res.status(403).json({
       message: "Invalid username/password",
     });
   }
@@ -100,17 +95,12 @@ userRouter.post("/signin", async (req, res) => {
     .toString("hex");
 
   if (hashedPassword !== user.password) {
-    return res.status(411).json({
+    return res.status(403).json({
       message: "Incorrect username/password",
     });
   }
 
-  const token = jwt.sign(
-    {
-      userId: user._id,
-    },
-    process.env.JWT_SECRET
-  );
+  const token = createToken({ userId: user._id });
 
   return res.status(200).json({
     message: "User signed in successfully",
@@ -174,6 +164,16 @@ userRouter.get("/bulk", authMiddleware, async (req, res) => {
 
   return res.status(200).json({
     users: users,
+  });
+});
+
+userRouter.get("/me", authMiddleware, async (req, res) => {
+  const user = await User.findById(req.userId, {
+    password: 0,
+    salt: 0,
+  });
+  return res.status(200).json({
+    user
   });
 });
 
