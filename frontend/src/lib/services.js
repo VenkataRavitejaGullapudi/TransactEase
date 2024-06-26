@@ -61,3 +61,12 @@ export async function me() {
   });
   return response;
 }
+
+export async function getBalance() {
+  const response = await axios.get(`${BACKEND_HOST}/api/v1/account/balance`, {
+    headers: {
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+  return response;
+}

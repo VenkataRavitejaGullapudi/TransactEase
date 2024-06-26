@@ -148,7 +148,7 @@ accountRouter.post(
     });
 
     if (!account || account.balance < data.amount) {
-      return res.status(400).json({
+      return res.status(422).json({
         error: "Insufficient balance",
       });
     }

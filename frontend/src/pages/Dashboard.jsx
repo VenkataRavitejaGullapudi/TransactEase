@@ -7,7 +7,7 @@ const Dashboard = () => {
     <div>
       <Appbar />
       <div className="m-8">
-        <Balance value={"100000"} />
+        <Balance  />
         <Users />
       </div>
     </div>
