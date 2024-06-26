@@ -13,7 +13,6 @@ const Signin = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-
   const handleSignin = async (e) => {
     e.preventDefault();
     try {
@@ -21,26 +20,36 @@ const Signin = () => {
       if (response.status === 200 && response?.data?.token) {
         error && setError("");
         navigate("/dashboard");
-      }
-      else setError(response.data.error || response.data.message || "Invalid credentials");
+      } else
+        setError(
+          response.data.error || response.data.message || "Invalid credentials"
+        );
     } catch (error) {
-      setError(error.response.data.error || error.response.data.message || "Invalid credentials");
+      setError(
+        error.response.data.error ||
+          error.response.data.message ||
+          "Invalid credentials"
+      );
     }
   };
 
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
-        <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
-          <Heading label={"Sign in"} />
-          <SubHeading label={"Enter your credentials to access your account"} />
+        <div className="rounded-lg bg-white w-80 p-2 h-max px-4">
+          <div className="text-center">
+            <Heading label={"Sign in"} />
+            <SubHeading
+              label={"Enter your credentials to access your account"}
+            />
+          </div>
           <InputBox
-            placeholder="ravitejagullapudi@gmail.com"
+            placeholder="Enter your email here.."
             label={"Email"}
             onChange={(e) => setUserName(e.target.value)}
           />
           <InputBox
-            placeholder="*******************"
+            placeholder="Enter your password here..."
             label={"Password"}
             type={"password"}
             onChange={(e) => setPassword(e.target.value)}

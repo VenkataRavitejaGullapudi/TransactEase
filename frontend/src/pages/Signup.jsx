@@ -15,7 +15,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-
+  
   const handleSignUp = async () => {
     try {
       const response = await signUp({
@@ -40,27 +40,29 @@ const Signup = () => {
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
-        <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
-          <Heading label={"Sign up"} />
-          <SubHeading label={"Enter your information to create an account"} />
+        <div className="rounded-lg bg-white w-80 p-2 h-max px-4">
+          <div className="text-center">
+            <Heading label={"Sign up"} />
+            <SubHeading label={"Enter your information to create an account"} />
+          </div>
           <InputBox
-            placeholder="John"
+            placeholder="Enter your First Name here..."
             label={"First Name"}
             onChange={(e) => setFirstName(e.target.value)}
           />
           <InputBox
-            placeholder="Doe"
+            placeholder="Enter your Last Name here..."
             label={"Last Name"}
             onChange={(e) => setLastName(e.target.value)}
           />
           <InputBox
             type={"email"}
-            placeholder="ravitejagullapudi@gmail.com"
+            placeholder="Enter your email here..."
             label={"Email"}
             onChange={(e) => setUserName(e.target.value)}
           />
           <InputBox
-            placeholder="**************************"
+            placeholder="Enter your password here..."
             type={"password"}
             label={"Password"}
             onChange={(e) => setPassword(e.target.value)}

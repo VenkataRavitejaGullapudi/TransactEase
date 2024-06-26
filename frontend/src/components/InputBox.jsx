@@ -9,7 +9,7 @@ const InputBox = ({ label, type, placeholder, onChange }) => {
         onChange={onChange}
         placeholder={placeholder}
         id={elementId}
-        className="my-1 w-full px-2 py-1 border rounded-md border-slate-200 text-sm"
+        className="my-1 w-full px-2 py-2 border rounded-md border-slate-200 text-sm"
       />
     </div>
   );
