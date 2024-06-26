@@ -52,3 +52,12 @@ export async function transferMoney(to, amount) {
   );
   return response;
 }
+
+export async function me() {
+  const response = await axios.get(`${BACKEND_HOST}/api/v1/user/me`, {
+    headers: {
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+  return response;
+}
