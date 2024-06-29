@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 
 const connectToDB = async () => {
   try {
-    const connObj = await mongoose.connect(process.env.MONGO_URI);
+    const connObj = await mongoose.connect(process.env.MONGO_URI, {
+      dbName: process.env.MONGO_DB_NAME,
+    });
     console.log(`MongoDB Connected: ${connObj.connection.host}`);
   } catch (error) {
     console.log(error);
@@ -59,7 +61,6 @@ const accountSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 const Account = mongoose.model("Account", accountSchema);
-
 
 module.exports = {
   connectToDB,

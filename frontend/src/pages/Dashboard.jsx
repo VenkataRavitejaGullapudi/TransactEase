@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
     <div>
       <Appbar />
-      <div className="m-8">
+      <div className="m-3">
         <Balance  />
         <Users />
       </div>

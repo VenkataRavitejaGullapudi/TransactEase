@@ -36,6 +36,8 @@ const transferRequest = z.object({
 });
 
 /*  Transfer money from one account to another (Only one transaction happens either send or recieve at a time for a single user by using the sessions below) */
+/* Here starting a session ensures data integrity and consistency during concurrent operations */
+/* Whereas transaction ensures atomicity, means all operations withing the transaction are either fully completed or rolled back */
 accountRouter.post(
   "/transfer",
   authMiddleware,

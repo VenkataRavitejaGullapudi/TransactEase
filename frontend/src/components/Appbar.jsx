@@ -9,8 +9,10 @@ export const Appbar = () => {
   };
 
   return (
-    <div className="shadow h-14 flex justify-between">
-      <div className="flex flex-col justify-center h-full ml-4">R-Wallet</div>
+    <div className="shadow h-18 flex justify-between">
+      <div className="ml-4 w-[12vw] sm:w-[32%]">
+        <img className="mx-1 my-2" srcSet="/logo-icon.png 640w, /logo.png" sizes="(max-width: 640px) 640px" src="/logo.png" alt="TransactEase" />
+      </div>
       <div className="flex items-center m-2">
         <div className="rounded-full h-8 w-8 bg-slate-200 flex justify-center mr-2">
           <div className="flex flex-col justify-center h-full text-lg uppercase">

@@ -10,6 +10,7 @@ export const Users = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const getFilteredUsers = useCallback((filterValue) => {
     setLoading(true);
@@ -29,6 +30,10 @@ export const Users = () => {
         setError(
           err.message || err.response?.data?.message || "Something went wrong"
         );
+        if (err.response?.status == 401 || err.response?.status == 403) {
+            navigate("/signin")
+            return
+        }
         console.log(err);
       });
   }, []);
@@ -75,35 +80,31 @@ export const Users = () => {
 function User({ user }) {
   const navigate = useNavigate();
   return (
-    <div className="flex justify-between m-2">
-      <div className="flex">
-        <div className="rounded-full h-10 w-10 bg-slate-200 flex justify-center m-1 mr-2">
-          <div className="flex flex-col justify-center h-full text-xl">
-            {user.firstName[0]}
-          </div>
-        </div>
-        <div className="flex flex-col justify-center h-full">
-          <div>
-            {user.firstName} {user.lastName}
-          </div>
+    <div className="grid grid-cols-5 gap-2 my-3">
+    <div className="col-span-3 flex items-center overflow-hidden">
+      <div className="rounded-full w-8 h-8 shrink-0 bg-slate-200 flex justify-center items-center mr-2">
+        <div className="flex flex-col justify-center h-full text-xl">
+          {user.firstName[0]}
         </div>
       </div>
-
-      <div className="flex flex-col justify-center h-full">
-        <Button
-          label={"Send Money"}
-          onClick={() => {
-            navigate(
-              "/send?id=" +
-                user._id +
-                "&firstName=" +
-                user.firstName +
-                "&lastName=" +
-                user.lastName
-            );
-          }}
-        />
+      <div className="flex flex-col justify-center h-full overflow-hidden">
+        <div className="text-ellipsis overflow-hidden whitespace-nowrap">
+          {user.firstName} {user.lastName}
+        </div>
       </div>
     </div>
+  
+    <div className="col-span-2 whitespace-nowrap flex flex-col justify-center h-full m-1">
+      <Button
+        label={"Send Money"}
+        onClick={() => {
+          navigate(
+            "/send?id=" + user._id + "&firstName=" + user.firstName + "&lastName=" + user.lastName
+          );
+        }}
+      />
+    </div>
+  </div>
+  
   );
 }

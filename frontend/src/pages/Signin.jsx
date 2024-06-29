@@ -19,7 +19,9 @@ const Signin = () => {
       const response = await signIn(userName, password);
       if (response.status === 200 && response?.data?.token) {
         error && setError("");
-        navigate("/dashboard");
+        navigate("/dashboard", {
+          replace: true,
+        });
       } else
         setError(
           response.data.error || response.data.message || "Invalid credentials"
@@ -34,7 +36,7 @@ const Signin = () => {
   };
 
   return (
-    <div className="bg-slate-300 h-screen flex justify-center">
+    <div className="bg-slate-300 h-full min-h-screen flex justify-center">
       <div className="flex flex-col justify-center">
         <div className="rounded-lg bg-white w-80 p-2 h-max px-4">
           <div className="text-center">
