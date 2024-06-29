@@ -1,0 +1,23 @@
+# Dockerfile.frontend
+FROM node:21
+
+# Set working directory
+WORKDIR /app
+
+# Copy frontend files
+COPY . .
+
+# Install dependencies
+RUN npm install
+
+# Build the frontend
+RUN npm run build
+
+# Install serve to serve static files
+RUN npm install -g serve
+
+# Expose frontend port
+EXPOSE 3002
+
+# Serve the built frontend
+CMD ["serve", "-s", "dist", "-l", "3002"]
