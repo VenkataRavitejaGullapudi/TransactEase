@@ -1,4 +1,4 @@
-# Project Title: **TransactEase - Transactional Fullstack App**
+# Project Title: **TransactEase - Transactional Fullstack App (A sandbox project for Conceptual Exploration)**
 
 ## Project Overview
 
