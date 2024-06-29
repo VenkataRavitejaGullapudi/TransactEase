@@ -9,8 +9,8 @@ export const Appbar = () => {
   };
 
   return (
-    <div className="shadow h-18 flex justify-between">
-      <div className="ml-4 w-[12vw] sm:w-[32%]">
+    <div className="shadow p-2 pb-4 flex justify-between">
+      <div className="ml-4 w-[14vw] sm:w-[32%] max-w-52 cursor-pointer" title="TransactEase" onClick={()=>navigate("/dashboard")}>
         <img className="mx-1 my-2" srcSet="/logo-icon.png 640w, /logo.png" sizes="(max-width: 640px) 640px" src="/logo.png" alt="TransactEase" />
       </div>
       <div className="flex items-center m-2">
