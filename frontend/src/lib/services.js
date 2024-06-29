@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAuthToken, storeAuthToken } from "./utils";
 
-const BACKEND_HOST = "http://localhost:3000";
+const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST || "http://localhost:3000";
 
 export async function getUsersByFilter(filter) {
   const response = await axios.get(
